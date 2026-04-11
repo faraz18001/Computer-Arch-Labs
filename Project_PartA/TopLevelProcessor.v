@@ -133,8 +133,8 @@ module TopLevelProcessor (
         .out(write_data)
     );
     
-    // Debug outputs for FPGA
+    // Debug outputs for FPGA LEDs
     assign show_pc = pc;
-    assign show_alu_result = alu_result;
+    assign show_alu_result = rf.regs[3]; // Point cleanly to x3 so the LEDs freeze on the answer (15)
 
 endmodule

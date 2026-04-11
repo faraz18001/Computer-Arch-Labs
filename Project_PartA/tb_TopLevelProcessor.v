@@ -33,6 +33,8 @@ module tb_TopLevelProcessor;
         reset = 0;
 
         // Monitor the PC and ALU results
+        $monitor("Time: %0dns | PC: %0d | ALU Result: %0d (Hex: %h)", $time, show_pc, show_alu_result, show_alu_result);
+        
         // 5 instructions = initial loop is 50ns, then loops between sw and beq (2 clock cycles per loop)
         // Let's run it for 200ns
         #200;
