@@ -25,21 +25,9 @@ module InstructionMemory (
         mem[7]  = 32'h06300293;   // addi x5, x0, 99        → x5 = 99 (proves bne exited)
 
         // ============================================================
-        // === Part C: Sum of N Numbers (1 + 2 + ... + N) ===
-        // === N = 10, Expected sum = 55 ===
-        // === Uses LUI, XORI, ADDI, ADD, BNE, SW ===
+        // === Endless Trap properly terminating Part B ===
         // ============================================================
-        // Setup
-        mem[8]  = 32'h000000B7;   // lui  x1, 0             → x1 = 0 (sum)
-        // mem[9]  = 32'h00A04113;   // xori x2, x0, 10        → x2 = 10 (HARDCODED N)
-        mem[9]  = 32'h10002103;   // lw   x2, 256(x0)       → READ SWITCHES from Address 0x100!
-        mem[10] = 32'h00004193;   // xori x3, x0, 0         → x3 = 0 (counter i)
-        // loop_sum:  (addr = 11*4 = 44 = 0x2C)
-        mem[11] = 32'h00118193;   // addi x3, x3, 1         → i++
-        mem[12] = 32'h003080B3;   // add  x1, x1, x3        → sum += i
-        mem[13] = 32'hFE219CE3;   // bne  x3, x2, -8        → if i != N, goto mem[11]
-        mem[14] = 32'h00102023;   // sw   x1, 0(x0)         → store sum (55) to mem[0]
-        mem[15] = 32'h00000063;   // beq  x0, x0, 0         → TRAP: Infinite loop to stop the program!
+        mem[8]  = 32'h00000063;   // beq  x0, x0, 0         → TRAP: Infinite loop to safely freeze screen!
     end
     
     // Address is byte address, so shift by 2 to get word index

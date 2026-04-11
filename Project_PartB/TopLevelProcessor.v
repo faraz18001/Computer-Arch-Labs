@@ -153,6 +153,6 @@ module TopLevelProcessor (
     
     // Debug outputs for FPGA
     assign show_pc = pc;
-    assign show_alu_result = rf.regs[1]; // Look directly into the x1 (sum) register!
+    assign show_alu_result = rf.regs[5]; // Points to x5! If tests pass, this becomes 99 (Hex 0063)
 
 endmodule
