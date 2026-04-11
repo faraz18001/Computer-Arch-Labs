@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Sat Apr 11 08:15:51 2026
+# Process ID: 3260
+# Current directory: Z:/CA-Project-Part-c/CA-Project-Part-c.runs/synth_1
+# Command line: vivado.exe -log Basys3_Top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Basys3_Top.tcl
+# Log file: Z:/CA-Project-Part-c/CA-Project-Part-c.runs/synth_1/Basys3_Top.vds
+# Journal file: Z:/CA-Project-Part-c/CA-Project-Part-c.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source Basys3_Top.tcl -notrace
