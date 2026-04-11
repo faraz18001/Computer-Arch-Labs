@@ -8,17 +8,17 @@ module Basys3_Top (
     output [3:0] an       // 7-segment display targets
 );
 
-    // 1. Create a slow clock so you can see the processor running with your eyes
+    // Create a slow clock
     reg [26:0] clk_div;
     always @(posedge clk) begin
         clk_div <= clk_div + 1;
     end
-    wire slow_clk = clk_div[26]; // roughly 0.75 Hz
+    wire slow_clk = clk_div[26];
 
     wire [31:0] pc_val;
     wire [31:0] alu_val;
 
-    // 2. Instantiate your RISC-V Processor
+    // Instantiate CPU
     TopLevelProcessor cpu (
         .clk(slow_clk), 
         .reset(btnC),
