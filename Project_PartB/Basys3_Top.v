@@ -8,7 +8,7 @@ module Basys3_Top (
 );
 
     // Slow clock so the instructor can watch each instruction execute
-    reg [26:0] clk_div;
+    reg [27:0] clk_div;
     always @(posedge clk) begin
         clk_div <= clk_div + 1;
     end
