@@ -3,7 +3,18 @@ module TopLevelProcessor (
     input reset,
     output [31:0] show_pc,
     output [31:0] show_alu_result,
-    input [15:0] switches
+    input [15:0] switches,
+    // Control signals exposed for LED display
+    output ctrl_RegWrite,
+    output ctrl_MemRead,
+    output ctrl_MemWrite,
+    output ctrl_ALUSrc,
+    output ctrl_MemtoReg,
+    output ctrl_Branch,
+    output ctrl_ALUSrcA,
+    output [1:0] ctrl_ALUOp,
+    output ctrl_PCSrc,
+    output ctrl_Zero
 );
 
     // Wires for interconnections
@@ -153,6 +164,18 @@ module TopLevelProcessor (
     
     // Debug outputs for FPGA
     assign show_pc = pc;
-    assign show_alu_result = rf.regs[5]; // Points to x5! If tests pass, this becomes 99 (Hex 0063)
+    assign show_alu_result = alu_result;
+
+    // Expose control signals for LED display
+    assign ctrl_RegWrite = RegWrite;
+    assign ctrl_MemRead  = MemRead;
+    assign ctrl_MemWrite = MemWrite;
+    assign ctrl_ALUSrc   = ALUSrc;
+    assign ctrl_MemtoReg = MemtoReg;
+    assign ctrl_Branch   = Branch;
+    assign ctrl_ALUSrcA  = ALUSrcA;
+    assign ctrl_ALUOp    = ALUOp;
+    assign ctrl_PCSrc    = PCSrc;
+    assign ctrl_Zero     = zero;
 
 endmodule
