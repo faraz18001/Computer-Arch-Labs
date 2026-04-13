@@ -2,6 +2,7 @@ module alu_control (
     input [1:0] ALUOp,
     input [2:0] funct3,
     input [6:0] funct7,
+    input IsRtype,
     output reg [3:0] ALUControl
 );
 
@@ -19,8 +20,8 @@ module alu_control (
             2'b10: begin // R-type or I-type
                 case(funct3)
                     3'b000: begin
-                        // In standard RISC-V: R-type add uses funct7 = 0000000, sub uses 0100000
-                        if (funct7[5] == 1'b1)
+                        // SUB only for R-type (funct7[5]=1). I-type bit 30 is part of immediate!
+                        if (IsRtype && funct7[5])
                             ALUControl = 4'b0110; // sub
                         else
                             ALUControl = 4'b0010; // add

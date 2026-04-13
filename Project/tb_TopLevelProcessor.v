@@ -2,58 +2,49 @@
 
 module tb_TopLevelProcessor;
 
-    // Inputs
     reg clk;
     reg reset;
+    reg [15:0] sw;
 
-    // Outputs
     wire [31:0] show_pc;
     wire [31:0] show_alu_result;
 
-    // Instantiate the Unit Under Test (UUT)
     TopLevelProcessor uut (
         .clk(clk),
         .reset(reset),
         .show_pc(show_pc),
-        .show_alu_result(show_alu_result)
+        .show_alu_result(show_alu_result),
+        .switches(sw)
     );
 
-    // Clock Generation: 10ns period (100 MHz)
     always #5 clk = ~clk;
 
     initial begin
-        $dumpfile("simulation.vcd");
-        $dumpvars(0, tb_TopLevelProcessor);
-
-        // Initialize Inputs
         clk = 0;
         reset = 1;
+        sw = 16'd8; // N = 8
 
-        // Wait 20 ns for global reset to finish
         #20;
-        
-        // Deassert reset to start processor execution
         reset = 0;
 
-        // Run for 800ns to cover all Part B tests + Part C loop (N=10)
         #800;
         
         $display("=== Final Register State ===");
-        $display("x1 (sum) = %0d", uut.rf.regs[1]);
-        $display("x2 (N)   = %0d", uut.rf.regs[2]);
-        $display("x3 (i)   = %0d", uut.rf.regs[3]);
-        $display("x4       = %0d", uut.rf.regs[4]);
-        $display("x5       = %0d", uut.rf.regs[5]);
+        $display("x1  (RA)      = %0d (hex: %h)", uut.rf.regs[1], uut.rf.regs[1]);
+        $display("x2  (SP)      = %0d", uut.rf.regs[2]);
+        $display("x10 (result)  = %0d (hex: %h)", uut.rf.regs[10], uut.rf.regs[10]);
+        $display("x11 (sum)     = %0d", uut.rf.regs[11]);
+        $display("x12 (counter) = %0d", uut.rf.regs[12]);
         $display("Simulation finished.");
         $finish;
     end
 
     always @(negedge clk) begin
         if (!reset) begin
-            $display("Time=%0dns | PC=%h | Instr=%h | ALURes=[%h] %0d | x1=%0d, x2=%0d, x3=%0d, x4=%0d, x5=%0d", 
-                     $time, show_pc, uut.instr, show_alu_result, $signed(show_alu_result), 
-                     uut.rf.regs[1], uut.rf.regs[2], uut.rf.regs[3],
-                     uut.rf.regs[4], uut.rf.regs[5]);
+            $display("T=%0dns PC=%h Instr=%h | Jump=%b JumpReg=%b PCSrc=%b | x1=%0d x10=%0d x11=%0d x12=%0d", 
+                     $time, show_pc, uut.instr,
+                     uut.Jump, uut.JumpReg, uut.PCSrc,
+                     uut.rf.regs[1], uut.rf.regs[10], uut.rf.regs[11], uut.rf.regs[12]);
         end
     end
 

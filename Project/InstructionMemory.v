@@ -29,7 +29,7 @@ module InstructionMemory (
         mem[13] = 32'hFEA61CE3;   // bne  x12, x10, -8      (If counter != N, loop)
 
         // Done
-        mem[14] = 32'h000B0533;   // add  x10, x11, x0      (Move sum to x10 as return value)
+        mem[14] = 32'h00058533;   // add  x10, x11, x0      (Move sum to x10 as return value)
         mem[15] = 32'h00012083;   // lw   x1, 0(x2)         (Pop: restore RA from stack)
         mem[16] = 32'h00410113;   // addi x2, x2, 4         (Pop: SP += 4)
         mem[17] = 32'h00008067;   // jalr x0, x1, 0         (Return to caller)

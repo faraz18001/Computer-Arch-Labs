@@ -122,6 +122,7 @@ module TopLevelProcessor (
         .ALUOp(ALUOp),
         .funct3(instr[14:12]),
         .funct7(instr[31:25]),
+        .IsRtype(instr[6:0] == 7'b0110011),
         .ALUControl(ALUControl)
     );
     
