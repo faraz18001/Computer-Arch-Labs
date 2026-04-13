@@ -13,7 +13,7 @@ module Basys3_Top (
     always @(posedge clk) begin
         clk_div <= clk_div + 1;
     end
-    wire slow_clk = clk_div[26]; // roughly 0.75 Hz
+    wire slow_clk = clk_div[24]; // roughly 3 Hz
 
     wire [31:0] pc_val;
     wire [31:0] alu_val;
@@ -28,7 +28,7 @@ module Basys3_Top (
     );
 
     wire [15:0] display_val = sw[0] ? pc_val[15:0] : alu_val[15:0];
-    assign led = display_val;
+    assign led = alu_val[15:0];
     
     seven_seg_controller display (
         .clk(clk),

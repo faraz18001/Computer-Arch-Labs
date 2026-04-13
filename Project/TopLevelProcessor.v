@@ -163,6 +163,6 @@ module TopLevelProcessor (
     assign write_data = link ? pc_plus_4 : wb_data;
     
     assign show_pc = pc;
-    assign show_alu_result = rf.regs[10]; // x10 holds the function return value (sum)
+    assign show_alu_result = rf.regs[11]; // x11 holds the running sum (visible during loop)
 
 endmodule
