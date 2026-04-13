@@ -20,6 +20,7 @@ module Basys3_Top (
     // Control signal wires
     wire c_RegWrite, c_MemRead, c_MemWrite, c_ALUSrc;
     wire c_MemtoReg, c_Branch, c_ALUSrcA, c_PCSrc, c_Zero;
+    wire c_Jump, c_JumpReg;
     wire [1:0] c_ALUOp;
 
     // Instantiate RISC-V Processor with control signals exposed
@@ -38,7 +39,9 @@ module Basys3_Top (
         .ctrl_ALUSrcA(c_ALUSrcA),
         .ctrl_ALUOp(c_ALUOp),
         .ctrl_PCSrc(c_PCSrc),
-        .ctrl_Zero(c_Zero)
+        .ctrl_Zero(c_Zero),
+        .ctrl_Jump(c_Jump),
+        .ctrl_JumpReg(c_JumpReg)
     );
 
     // === LEDs: Show Control Signals ===
@@ -53,8 +56,10 @@ module Basys3_Top (
     // LED[8]  = ALUOp[1]
     // LED[9]  = PCSrc
     // LED[10] = Zero
-    // LED[15:11] = unused
-    assign led = {5'b0, c_Zero, c_PCSrc, c_ALUOp, c_ALUSrcA,
+    // LED[11] = Jump
+    // LED[12] = JumpReg
+    // LED[15:13] = unused
+    assign led = {3'b0, c_JumpReg, c_Jump, c_Zero, c_PCSrc, c_ALUOp, c_ALUSrcA,
                   c_Branch, c_MemtoReg, c_ALUSrc, c_MemWrite,
                   c_MemRead, c_RegWrite};
 

@@ -1,0 +1,3 @@
+VCD info: dumpfile top.vcd opened for output.
+Execution complete. Inspect top.vcd for waveforms.
+tb_top.v:27: $finish called at 115000 (1ps)

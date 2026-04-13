@@ -7,11 +7,12 @@ module main_control (
     output reg ALUSrc,
     output reg MemtoReg,
     output reg Branch,
-    output reg ALUSrcA
+    output reg ALUSrcA,
+    output reg Jump,
+    output reg JumpReg
 );
 
     always @(*) begin
-        // default assignments to handle Don't Care (X) conditions safely
         RegWrite = 1'b0;
         ALUOp = 2'b00;
         MemRead = 1'b0;
@@ -20,6 +21,8 @@ module main_control (
         MemtoReg = 1'b0;
         Branch = 1'b0;
         ALUSrcA = 1'b0;
+        Jump = 1'b0;
+        JumpReg = 1'b0;
 
         case(opcode)
             7'b0110011: begin // R-type
@@ -38,11 +41,11 @@ module main_control (
                 ALUSrc = 1'b1;
                 MemWrite = 1'b1;
             end
-            7'b1100011: begin // beq
+            7'b1100011: begin // Branch (BEQ/BNE)
                 ALUOp = 2'b01;
                 Branch = 1'b1;
             end
-            7'b0010011: begin // I-type
+            7'b0010011: begin // I-type ALU
                 RegWrite = 1'b1;
                 ALUOp = 2'b10;
                 ALUSrc = 1'b1;
@@ -53,8 +56,16 @@ module main_control (
                 ALUSrc = 1'b1;
                 ALUSrcA = 1'b1;
             end
+            7'b1101111: begin // JAL
+                RegWrite = 1'b1;
+                Jump = 1'b1;
+            end
+            7'b1100111: begin // JALR
+                RegWrite = 1'b1;
+                ALUSrc = 1'b1;
+                JumpReg = 1'b1;
+            end
             default: begin
-                // safe defaults already set
             end
         endcase
     end

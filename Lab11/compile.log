@@ -1,0 +1,10 @@
+VCD info: dumpfile task1.vcd opened for output.
+Pass: PC incremented to 4
+Pass: PC incremented to 8
+Pass: Correct B-Type immediate
+Pass: Correct branch target calculated (PC - 8)
+Pass: PC correctly branched to 4
+Pass: PC returned to sequential execution (8)
+Pass: Correct I-Type immediate
+All tests completed!
+tb_task1.v:101: $finish called at 70 (1s)

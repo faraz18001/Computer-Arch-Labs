@@ -1,0 +1,17 @@
+./Lab5/fsm_counter_top.v
+./Lab5/top_module_tb.v
+./Lab6/ALU.v
+./Lab6/ALU_revised.v
+./Lab6/ALU_tb.v
+./Lab6/top.v
+./Lab7/RF_ALU_FSM_tb.v
+./Lab7/RegisterFile.v
+./Lab7/RegisterFile_tb.v
+./Lab7/top_module.v
+./Lab8/DataMemory.v
+./Lab8/MemorySystem_tb.v
+./Lab8/addressDecoder.v
+./Lab9/alu_control.v
+./Lab9/main_control.v
+./Lab9/tb_alu_control.v
+./Lab9/tb_main_control.v

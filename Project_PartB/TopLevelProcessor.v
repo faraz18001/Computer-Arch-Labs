@@ -14,7 +14,9 @@ module TopLevelProcessor (
     output ctrl_ALUSrcA,
     output [1:0] ctrl_ALUOp,
     output ctrl_PCSrc,
-    output ctrl_Zero
+    output ctrl_Zero,
+    output ctrl_Jump,
+    output ctrl_JumpReg
 );
 
     // Wires for interconnections
@@ -26,6 +28,7 @@ module TopLevelProcessor (
     wire [31:0] instr;
     
     wire RegWrite, MemRead, MemWrite, ALUSrc, MemtoReg, Branch, ALUSrcA;
+    wire Jump, JumpReg;
     wire [1:0] ALUOp;
     wire [3:0] ALUControl;
     
@@ -40,10 +43,9 @@ module TopLevelProcessor (
     wire [31:0] read_data;
     wire [31:0] imm;
     
-    // branching logic
-    // beq: funct3[0]=0 → branch if zero==1
-    // bne: funct3[0]=1 → branch if zero==0
-    wire PCSrc = Branch & (zero ^ instr[12]);
+    // PC source logic: branches, JAL, or JALR
+    wire branch_taken = Branch & (zero ^ instr[12]);
+    wire PCSrc = branch_taken | Jump | JumpReg;
     
     // === PC and Instruction Fetch ===
     ProgramCounter pc_reg (
@@ -73,7 +75,9 @@ module TopLevelProcessor (
         .ALUSrc(ALUSrc),
         .MemtoReg(MemtoReg),
         .Branch(Branch),
-        .ALUSrcA(ALUSrcA)
+        .ALUSrcA(ALUSrcA),
+        .Jump(Jump),
+        .JumpReg(JumpReg)
     );
     
     // === Register File ===
@@ -102,9 +106,12 @@ module TopLevelProcessor (
         .pc_branch(pc_branch)
     );
     
+    // JALR jumps to alu_result (rs1+imm), JAL/Branch jump to pc_branch
+    wire [31:0] jump_target = JumpReg ? alu_result : pc_branch;
+
     mux2 #(32) pc_mux (
         .in0(pc_plus_4),
-        .in1(pc_branch),
+        .in1(jump_target),
         .sel(PCSrc),
         .out(pc_next)
     );
@@ -155,12 +162,17 @@ module TopLevelProcessor (
     assign read_data = is_mmio ? {16'b0, switches} : read_data_ram;
     
     // === Write Back ===
+    wire [31:0] wb_data;
     mux2 #(32) wb_mux (
         .in0(alu_result),
         .in1(read_data),
         .sel(MemtoReg),
-        .out(write_data)
+        .out(wb_data)
     );
+
+    // JAL/JALR write PC+4 (return address) to rd
+    wire link = Jump | JumpReg;
+    assign write_data = link ? pc_plus_4 : wb_data;
     
     // Debug outputs for FPGA
     assign show_pc = pc;
@@ -177,5 +189,7 @@ module TopLevelProcessor (
     assign ctrl_ALUOp    = ALUOp;
     assign ctrl_PCSrc    = PCSrc;
     assign ctrl_Zero     = zero;
+    assign ctrl_Jump     = Jump;
+    assign ctrl_JumpReg  = JumpReg;
 
 endmodule

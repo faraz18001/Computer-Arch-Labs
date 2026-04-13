@@ -6,7 +6,7 @@ module immGen (
     
     always @(*) begin
         case (opcode)
-            7'b0010011, 7'b0000011: // I-type (ALU immediate, Load)
+            7'b0010011, 7'b0000011, 7'b1100111: // I-type (ALU imm, Load, JALR)
                 imm = {{20{instr[31]}}, instr[31:20]};
                 
             7'b0100011: // S-type (Store)
