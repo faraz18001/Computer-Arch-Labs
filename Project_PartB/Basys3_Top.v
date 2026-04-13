@@ -12,7 +12,7 @@ module Basys3_Top (
     always @(posedge clk) begin
         clk_div <= clk_div + 1;
     end
-    wire slow_clk = clk_div[27]; // ~2.7 sec per instruction
+    wire slow_clk = clk_div[26]; // ~1.3 sec per instruction
 
     wire [31:0] pc_val;
     wire [31:0] alu_val;
