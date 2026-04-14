@@ -159,6 +159,36 @@ JALR   & 1 & 1 & 0 & 0 & 0 & -- & 0 & 1 & 1 \\
 \end{tabular}
 \end{table}
 
+\subsection{FPGA LED Mapping (Task B Demo)}
+
+All 13 control signals are wired directly to the Basys3 LEDs for real-time observation. The 7-segment display always shows the Program Counter. The following table maps each LED to its signal during the live demo:
+
+\begin{table}[H]
+\centering\small
+\begin{tabular}{c|l|l|c}
+\toprule
+\textbf{LED\#} & \textbf{Signal} & \textbf{Meaning} & \textbf{Lights up for} \\
+\midrule
+LED0  & RegWrite  & Write result to register   & LUI, XORI, JAL, ADDI \\
+LED1  & MemRead   & Read from data memory      & LW only \\
+LED2  & MemWrite  & Write to data memory       & SW only \\
+LED3  & ALUSrc    & ALU input B = Immediate    & LUI, XORI, ADDI \\
+LED4  & MemtoReg  & Write-back from memory     & LW only \\
+LED5  & Branch    & Branch instruction active  & BEQ, BNE \\
+LED6  & ALUSrcA   & ALU input A = 0 (for LUI)  & LUI only \\
+LED7  & ALUOp[0]  & ALU operation bit 0        & R-type, I-type ALU \\
+LED8  & ALUOp[1]  & ALU operation bit 1        & R-type, I-type ALU \\
+LED9  & PCSrc     & PC is jumping/branching    & JAL, JALR, taken Branch \\
+LED10 & Zero      & ALU result is zero         & BEQ (when equal) \\
+LED11 & Jump      & JAL instruction executing  & JAL only \\
+LED12 & JumpReg   & JALR instruction executing & JALR only \\
+\bottomrule
+\end{tabular}
+\caption{LED-to-control-signal mapping for Part B FPGA demonstration on Basys3.}
+\end{table}
+
+\textbf{Demo tip:} When the PC display shows \texttt{000C}, observe that LED11 (Jump) lights up and PCSrc (LED9) goes high simultaneously -- the PC then skips directly to \texttt{0014}, proving JAL executed correctly.
+
 % ============================================================
 % SECTION 3: TASK C PROGRAM
 % ============================================================
