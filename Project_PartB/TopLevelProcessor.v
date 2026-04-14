@@ -1,6 +1,7 @@
 module TopLevelProcessor (
     input clk,
     input reset,
+    input freeze,               // sw[15]: pause the PC
     output [31:0] show_pc,
     output [31:0] show_alu_result,
     input [15:0] switches,
@@ -51,6 +52,7 @@ module TopLevelProcessor (
     ProgramCounter pc_reg (
         .clk(clk),
         .reset(reset),
+        .freeze(freeze),
         .pc_next(pc_next),
         .pc(pc)
     );

@@ -27,6 +27,7 @@ module Basys3_Top (
     TopLevelProcessor cpu (
         .clk(slow_clk),
         .reset(btnC),
+        .freeze(sw[15]),    // sw[15] UP = freeze PC, DOWN = run
         .show_pc(pc_val),
         .show_alu_result(alu_val),
         .switches(sw),
